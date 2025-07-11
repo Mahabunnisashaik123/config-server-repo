@@ -7,4 +7,4 @@ spring:
       uri: mongodb://localhost:27017/productdb
 
 product:
-  message: "Hello from product-service dev profile!"
+  message: "Hello from product-service development profile!"
