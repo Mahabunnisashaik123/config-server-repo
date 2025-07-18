@@ -9,6 +9,14 @@ spring:
     mongodb:
       uri: mongodb://localhost:27017/productdb
 
+  zipkin:
+    base-url: http://localhost:9411
+    enabled: true
+
+  sleuth:
+    sampler:
+      probability: 1.0
+
 eureka:
   client:
     service-url:
@@ -17,23 +25,19 @@ eureka:
     fetch-registry: true
     lease-renewal-interval-in-seconds: 5
     lease-expiration-duration-in-seconds: 10
+
   instance:
     prefer-ip-address: true
     lease-renewal-interval-in-seconds: 5
- zipkin:
-    base-url: http://localhost:9411
 
-  sleuth:
-    sampler:
-      probability: 1.0
- logging:
-   pattern:
-     level: "%5p [${spring.application.name},%X{traceId},%X{spanId}]"
+message: "Welcome to Product Service"
+
+logging:
+  pattern:
+    level: "%5p [${spring.application.name},%X{traceId},%X{spanId}]"
 
 management:
   endpoints:
     web:
       exposure:
         include: "*"
-
-message: "Welcome to Product Service"
