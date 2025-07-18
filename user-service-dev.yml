@@ -2,43 +2,42 @@ server:
   port: 8081
 
 spring:
+  application:
+    name: user-service
   datasource:
-    url: jdbc:mysql://localhost:3306/userdb
+    url: jdbc:mysql://localhost:3306/usersdata
     username: root
     password: root
   jpa:
     hibernate:
       ddl-auto: update
-    show-sql: true
-logging:
-  level:
-    root: info
-    com.example.userService: debug
 
-resilience4j:
-  circuitbreaker:
-    instances:
-      userService:
-        register-health-indicator: true
-        sliding-window-size: 5
-        failure-rate-threshold: 50
-
-  retry:
-    instances:
-      userService:
-        max-attempts: 3
-        wait-duration: 1s
-
-  timelimiter:
-    instances:
-      userService:
-        timeout-duration: 3s
 eureka:
   client:
     service-url:
       defaultZone: http://localhost:8761/eureka
     register-with-eureka: true
     fetch-registry: true
+    lease-renewal-interval-in-seconds: 5
+    lease-expiration-duration-in-seconds: 10
+  instance:
+    prefer-ip-address: true
+    lease-renewal-interval-in-seconds: 5
 
-user:
-  message: "Hello from user-service dev profile!"
+resilience4j:
+  circuitbreaker:
+    instances:
+      productService:
+        registerHealthIndicator: true
+        slidingWindowSize: 5
+        minimumNumberOfCalls: 3
+        failureRateThreshold: 50
+        waitDurationInOpenState: 5s
+
+  retry:
+    instances:
+      productService:
+        max-attempts: 2
+        wait-duration: 1s
+
+message: "Hello from Config Server for UserService"
