@@ -5,10 +5,7 @@ spring:
   data:
     mongodb:
       uri: mongodb://localhost:27017/productdb
-logging:
-  level:
-    root: info
-    com.example.productService: debug
+
   eureka:
    client:
       service-url:
@@ -16,5 +13,4 @@ logging:
          register-with-eureka: true
            fetch-registry: true
 
-product:
   message: "Hello from product-service development profile!"
