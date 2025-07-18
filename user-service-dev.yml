@@ -30,14 +30,14 @@ resilience4j:
       productService:
         registerHealthIndicator: true
         slidingWindowSize: 5
-        minimumNumberOfCalls: 3
+        minimumNumberOfCalls: 5
         failureRateThreshold: 50
         waitDurationInOpenState: 5s
 
   retry:
     instances:
       productService:
-        max-attempts: 2
+        max-attempts: 5
         wait-duration: 1s
 
 message: "Hello from Config Server for UserService"
