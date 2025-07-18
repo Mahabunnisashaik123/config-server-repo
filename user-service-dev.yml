@@ -33,6 +33,12 @@ resilience4j:
     instances:
       userService:
         timeout-duration: 3s
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka
+    register-with-eureka: true
+    fetch-registry: true
 
 user:
   message: "Hello from user-service dev profile!"
