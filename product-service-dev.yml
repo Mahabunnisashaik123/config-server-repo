@@ -40,4 +40,4 @@ logging:
   pattern:
     level: "%5p [${spring.application.name},%X{traceId:-},%X{spanId:-}]"
 
-message: "Welcome to Product Service"
+message: "Hello from Config Server for Product Service"
