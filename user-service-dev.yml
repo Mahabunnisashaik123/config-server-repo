@@ -10,55 +10,43 @@ spring:
     username: root
     password: root
 
-  jpa:
-    hibernate:
-      ddl-auto: update
-
-  zipkin:
-    base-url: http://localhost:9411
-    enabled: true
-
-  sleuth:
-    sampler:
-      probability: 1.0
-
 eureka:
   client:
     service-url:
       defaultZone: http://localhost:8761/eureka
     register-with-eureka: true
-    fetch-registry: true
-    lease-renewal-interval-in-seconds: 5
-    lease-expiration-duration-in-seconds: 10
 
-  instance:
-    prefer-ip-address: true
-    lease-renewal-interval-in-seconds: 5
-
-resilience4j:
-  circuitbreaker:
-    instances:
-      productService:
-        registerHealthIndicator: true
-        slidingWindowSize: 5
-        minimumNumberOfCalls: 3
-        failureRateThreshold: 50
-        waitDurationInOpenState: 5s
-
-  retry:
-    instances:
-      productService:
-        max-attempts: 2
-        wait-duration: 1s
-
-message: "Hello from Config Server for UserService"
+management:
+  tracing:
+    enabled: true
+    sampling:
+      probability: 1.0
+    tracing-library: brave
+  zipkin:
+    tracing:
+      endpoint: http://localhost:9411/api/v2/spans
 
 logging:
   pattern:
-    level: "%5p [${spring.application.name},%X{traceId},%X{spanId}]"
+    level: "%5p [${spring.application.name},%X{traceId:-},%X{spanId:-}]"
 
-management:
-  endpoints:
-    web:
-      exposure:
-        include: "*"
+feign:
+  circuitbreaker:
+    enabled: true
+
+resilience4j:
+  retry:
+    instances:
+      productService:
+        maxAttempts: 3
+        waitDuration: 2s
+
+  circuitbreaker:
+    instances:
+      productService:
+        slidingWindowSize: 5
+        failureRateThreshold: 50
+        waitDurationInOpenState: 10s
+        permittedNumberOfCallsInHalfOpenState: 2
+
+message: "Hello from Config Server for UserService"
